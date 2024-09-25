@@ -3,10 +3,10 @@ package br.com.fiap.pizzariadiamond.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,20 +14,29 @@ import java.util.List;
 @Data
 public class Order {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @ToString.Exclude
-    Client client;
+    @JoinColumn(name = "client_id", nullable = false) // Adicionei a coluna para o relacionamento com Client
+    private Client client;
 
-    LocalDateTime date;
+    @Column(name = "date", nullable = false)
+    private LocalDateTime date;
 
     @ManyToMany
     @ToString.Exclude
-    List<Pizza> items;
+    @JoinTable(
+            name = "pizza_order_items", // Tabela de junção
+            joinColumns = @JoinColumn(name = "pizza_order_id"), // Corrigido para corresponder ao seu SQL
+            inverseJoinColumns = @JoinColumn(name = "pizza_id")
+    )
+    private List<Pizza> items = new ArrayList<>();
 
-    BigDecimal totalPrice;
+    @Column(name = "total_price", nullable = false)
+    private BigDecimal totalPrice;
 
     public BigDecimal calculateTotalPrice() {
         return items.stream()
@@ -41,5 +50,4 @@ public class Order {
         this.date = LocalDateTime.now();
         this.totalPrice = calculateTotalPrice();
     }
-
 }

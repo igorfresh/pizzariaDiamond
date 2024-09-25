@@ -17,7 +17,7 @@ INSERT INTO pizza_order (client_id, date, total_price) VALUES
                                                            (3, NOW(), 75.00);
 
 
-INSERT INTO pizza_order_pizza (pizza_order_id, pizza_id) VALUES
+INSERT INTO pizza_order_items(pizza_order_id, pizza_id) VALUES
                                                              (1, 1), -- Pedido 1, Pizza Margherita
                                                              (1, 2), -- Pedido 1, Pizza Pepperoni
                                                              (2, 3), -- Pedido 2, Pizza Frango com Catupiry

@@ -22,7 +22,7 @@ CREATE TABLE pizza_order (
 );
 
 -- Tabela intermediária 'pizza_order_pizza' para o relacionamento Many-to-Many entre 'pizza_order' e 'pizza'
-CREATE TABLE pizza_order_pizza (
+CREATE TABLE pizza_order_items (
                                    pizza_order_id BIGINT NOT NULL,
                                    pizza_id BIGINT NOT NULL,
                                    PRIMARY KEY (pizza_order_id, pizza_id),
